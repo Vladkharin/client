@@ -16,7 +16,7 @@ interface SocketState {
   sendMessage: <T extends Record<string, unknown>>(event: string, payload: T) => void;
 }
 
-const PROD_SOCKET_URL = "https//app.domcraft.digital";
+const PROD_SOCKET_URL = "https://app.domcraft.digital";
 const DEV_SOCKET_URL = "http://localhost:3001";
 
 export const useSocketStore = create<SocketState>()(

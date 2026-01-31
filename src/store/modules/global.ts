@@ -14,7 +14,7 @@ const getFromLocalStorage = (key: string, fallback: SERVER_TYPE) => {
   if (typeof window === "undefined") return fallback; // SSR-безопасность
   try {
     const item = window.localStorage.getItem(key);
-    return item ? JSON.parse(item) : fallback;
+    return item ? item : fallback;
   } catch (error) {
     console.warn(`Failed to read ${key} from localStorage`, error);
     return fallback;
