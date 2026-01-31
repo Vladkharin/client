@@ -28,7 +28,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository_owner }}/domcraft-client
+          images: ghcr.io/${{ github.repository_owner }}/client
 
       - name: Build and push client
         uses: docker/build-push-action@v5
