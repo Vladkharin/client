@@ -12,7 +12,7 @@ interface SocketState {
   isConnected: boolean;
   connect: (token: string, onReady?: () => void) => void;
   disconnect: () => void;
-  sendMessage: (event: string, payload: any) => void;
+  sendMessage: <T extends Record<string, unknown>>(event: string, payload: T) => void;
 }
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3001";
@@ -67,10 +67,12 @@ export const useSocketStore = create<SocketState>()(
       }
     },
 
-    sendMessage: (event, payload) => {
+    sendMessage: <T extends Record<string, unknown>>(event: string, payload: T) => {
       const { socket } = get();
       if (socket?.connected) {
-        socket.emit(event, { ...payload, id: generateId() });
+        // Добавляем id к payload
+        const payloadWithId = { ...payload, id: generateId() };
+        socket.emit(event, payloadWithId);
       } else {
         console.warn("⚠️ Socket not connected");
       }
