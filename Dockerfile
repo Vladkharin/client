@@ -3,26 +3,27 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Копируем зависимости и устанавливаем их
+# Устанавливаем ВСЕ зависимости (включая dev) для сборки
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci  # ← УБРАТЬ --only=production здесь!
 
-# Копируем весь код
+# Копируем исходный код
 COPY . .
 
-# СОБИРАЕМ ПРОДАКШН-ВЕРСИЮ (ключевой шаг!)
+# Собираем приложение
 RUN npm run build
 
-# Финальный образ — минимальный
+# Финальный образ — только продакшен
 FROM node:18-alpine
 
 WORKDIR /app
 
-# Копируем только собранную версию из этапа builder
+# Копируем готовую сборку и зависимости
 COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 
-# Устанавливаем только продакшн-зависимости (повторно — для безопасности)
+# Можно оставить --only=production здесь (но лучше скопировать готовые node_modules)
 RUN npm ci --only=production
 
 EXPOSE 3000
