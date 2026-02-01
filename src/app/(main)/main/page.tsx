@@ -16,10 +16,15 @@ export default function Page() {
     sendMessage("call:accept", { conversationId: inComingCall });
   };
 
+  const clickToCreateNewChat = () => {
+    sendMessage("dm:create", { participantId: 3 });
+  };
+
   return (
     <AuthGuard>
       <div className={styles.wrapper}>
         <h1>Добро пожаловать в чат</h1>
+        <button onClick={clickToCreateNewChat}>Создать чат с dickyVolk</button>
         <ChatList />
         <WrapperMessages />
 
