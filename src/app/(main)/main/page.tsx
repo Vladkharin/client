@@ -17,14 +17,14 @@ export default function Page() {
   };
 
   const clickToCreateNewChat = () => {
-    sendMessage("dm:create", { participantId: 3 });
+    sendMessage("dm:create", { participantId: 2 });
   };
 
   return (
     <AuthGuard>
       <div className={styles.wrapper}>
         <h1>Добро пожаловать в чат</h1>
-        <button onClick={clickToCreateNewChat}>Создать чат с dickyVolk</button>
+        <button onClick={() => clickToCreateNewChat()}>Создать чат с dickyVolk</button>
         <ChatList />
         <WrapperMessages />
 
